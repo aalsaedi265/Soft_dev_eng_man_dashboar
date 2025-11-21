@@ -1,0 +1,413 @@
+Team Dashboard
+A full-stack team management dashboard built to solve real problems while mastering React, Go, and PostgreSQL. This is a practical learning project that you'll actually use.
+🎯 What We're Building
+A lightweight team dashboard that handles the essentials:
+
+Team Directory: Member profiles with real-time status updates
+Task Management: Create, assign, and track work items across projects
+Meeting Notes: Centralized repository for meeting documentation with attachments
+Analytics: Team velocity, completion rates, and productivity metrics
+
+
+📋 Implementation Phases
+
+## CURRENT STATUS: Phase 1 - Frontend Display Layer (COMPLETED ✅)
+
+**Last Updated:** November 14, 2025
+**Current Focus:** Frontend display layer complete with mock data. Ready to add interactivity or move to backend.
+
+### ✅ Completed Steps:
+- [x] Created `frontend/vite-project` with React + TypeScript + Vite
+- [x] Installed react-router-dom for routing
+- [x] Built simplified, consolidated structure (one file approach)
+- [x] Created all 5 page components: Login, Dashboard, Employees, Projects, Tasks
+- [x] Added mock data for Employees, Projects, and Tasks
+- [x] Built table displays for all entities with relationships
+- [x] Added CSS styling with badges and responsive tables
+- [x] Routing fully functional - can navigate between all pages
+
+### 📂 Current Structure (Simplified):
+```
+frontend/vite-project/src/
+├── App.tsx        # All types, mock data, components, and routing (342 lines)
+├── App.css        # All styles in one place
+└── main.tsx       # Entry point
+```
+
+**Why simplified?** Following the KISS principle - easier to read, maintain, and refactor. Will split into separate files only when components exceed 100-150 lines or need to be reused.
+
+### 🎯 Next Decision Point:
+
+**Option A: Add Interactivity (Stay in React)**
+- Add `useState` to manage data in memory
+- Build forms for Add/Edit operations
+- Wire up Delete functionality
+- Make buttons actually work
+
+**Option B: Move to Backend (Switch to Go + PostgreSQL)**
+- Set up PostgreSQL database
+- Build Go API server with Gin
+- Create database schema and migrations
+- Implement REST endpoints
+- Connect frontend to real API
+
+**Recommendation:** Option A first (add interactivity) - it's faster and you'll understand exactly what your backend API needs to return.
+
+---
+
+## Phase 1: Foundation (Week 1-2)
+
+Goal: Working CRUD with authentication
+Build the core that everything else depends on. No shortcuts here.
+
+**Recommended Build Order:**
+1. **Employees** (simplest entity)
+2. **Projects** (introduces relationships)
+3. **Tasks** (nested relationships)
+4. **Time Tracking/Logs** (aggregations)
+5. **Authentication** (crosscutting concern - add last)
+
+Backend deliverables:
+
+PostgreSQL schema (employees, projects, tasks, time_logs)
+Go API server with Gin framework
+Employee CRUD endpoints
+Project CRUD endpoints
+Task CRUD endpoints
+Time log endpoints
+User registration and login (JWT authentication) - Phase 1B
+Basic error handling middleware
+
+Frontend deliverables:
+
+React app with Vite
+Employee management (list, create, edit, delete)
+Project management with employee assignments
+Task management with project/employee relationships
+Time tracking interface
+Login and registration forms - Phase 1B
+Protected routes (redirect if not authenticated) - Phase 1B
+
+Validation checkpoint: Can you create an employee, create a project, assign employees to it, create tasks, and log time against those tasks? If yes, add authentication. If no, fix it first.
+
+Phase 2: Production Ready (Week 3-4)
+
+Goal: Real-world patterns and polish
+Add the features that make this feel like a real product.
+Features to implement:
+
+WebSocket integration: Real-time task updates (when one user updates a task, everyone sees it instantly)
+File uploads: Attach PDFs and documents to meeting notes
+Analytics queries: Calculate team velocity and completion rates
+Role-based access control: Admin vs member permissions
+Error handling: Graceful failures, loading states, validation messages
+Polish: Better UX, keyboard shortcuts, mobile-responsive layout
+
+Validation checkpoint: Use the dashboard for actual team work for at least 2 weeks. Iterate based on what is annoying or missing.
+🛠️ Tech Stack
+Frontend
+
+React 18+ with TypeScript - Component-based UI with type safety
+Vite - Lightning-fast dev server
+React Router - Client-side routing
+Native Fetch API - HTTP requests to backend (no extra dependencies)
+Plain CSS - Component styling and layouts
+(Optional for Phase 2): Recharts for analytics visualization
+
+Backend
+
+Go 1.21+ - API server
+Gin - HTTP framework with middleware support
+sqlx - Type-safe SQL (no ORM bloat)
+golang-jwt - JWT authentication
+Gorilla WebSocket - Real-time communication (Phase 2)
+bcrypt - Password hashing
+
+Database
+
+PostgreSQL 15+ - Primary data store
+UUID primary keys - Distributed-friendly IDs
+Foreign key constraints - Data integrity
+Indexes - Fast queries on common patterns
+
+🏃 Getting Started
+Prerequisites
+Make sure you have these installed:
+
+Go 1.21+: https://go.dev/doc/install
+Node.js 18+ and npm: https://nodejs.org/
+PostgreSQL 15+: https://www.postgresql.org/download/
+Git: https://git-scm.com/
+
+Local Setup
+1. Clone the repository
+bashgit clone https://github.com/yourusername/team-dashboard.git
+cd team-dashboard
+2. Set up the database
+Option A: Using Docker (recommended)
+bashdocker run --name team-dashboard-db \
+  -e POSTGRES_PASSWORD=yourpassword \
+  -e POSTGRES_DB=teamdashboard \
+  -p 5432:5432 \
+  -d postgres:15
+Option B: Local PostgreSQL installation
+bash# Create the database
+createdb teamdashboard
+
+# Or using psql
+psql -U postgres
+CREATE DATABASE teamdashboard;
+\q
+3. Run database migrations
+Navigate to the backend directory and run migrations:
+bashcd backend
+
+# Install goose migration tool
+go install github.com/pressly/goose/v3/cmd/goose@latest
+
+# Run migrations
+goose -dir migrations postgres "user=postgres password=yourpassword dbname=teamdashboard sslmode=disable" up
+4. Configure backend environment
+Create a .env file in the backend/ directory:
+envDB_HOST=localhost
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=yourpassword
+DB_NAME=teamdashboard
+DB_SSLMODE=disable
+
+JWT_SECRET=your-super-secret-jwt-key-change-this-in-production
+PORT=8080
+Important: Never commit the .env file. It is already in .gitignore.
+5. Start the backend server
+bashcd backend
+
+# Install dependencies
+go mod download
+
+# Run the server
+go run cmd/server/main.go
+The API will be available at http://localhost:8080
+Test it:
+bashcurl http://localhost:8080/api/health
+# Should return: {"status":"ok"}
+6. Set up the frontend
+Open a new terminal window:
+bashcd frontend
+
+# Install dependencies
+npm install
+
+# Start the dev server
+npm run dev
+The React app will be available at http://localhost:5173
+7. Create your first user
+Open your browser to http://localhost:5173 and:
+
+Click "Register"
+Create an account
+Log in
+Start creating tasks!
+
+📁 Project Structure
+
+**Current (Simplified):**
+```
+management_dashboard/
+├── frontend/
+│   └── vite-project/
+│       ├── src/
+│       │   ├── App.tsx           # All components, types, and mock data
+│       │   ├── App.css           # All styles
+│       │   └── main.tsx          # Entry point
+│       ├── public/
+│       ├── package.json
+│       └── vite.config.ts
+│
+├── backend/                      # (To be created in next phase)
+│
+└── README.md
+```
+
+**Future Backend Structure (when needed):**
+```
+backend/
+├── cmd/
+│   └── server/
+│       └── main.go               # Application entry point
+├── internal/
+│   ├── handlers/                 # HTTP request handlers
+│   ├── middleware/               # Auth, logging, error handling
+│   ├── models/                   # Data structures
+│   └── db/                       # Database connection & queries
+├── migrations/                   # Database migrations
+├── go.mod
+└── .env                          # Environment variables (not in git)
+```
+🔧 Common Development Tasks
+Running tests
+bash# Backend tests
+cd backend
+go test ./...
+
+# Frontend tests
+cd frontend
+npm test
+Database operations
+Create a new migration:
+bashcd backend
+goose -dir migrations create add_something_new sql
+Reset database (careful!):
+bashgoose -dir migrations postgres "connection_string" down
+goose -dir migrations postgres "connection_string" up
+Check migration status:
+bashgoose -dir migrations postgres "connection_string" status
+Building for production
+
+
+Backend:
+bashcd backend
+CGO_ENABLED=0 GOOS=linux go build -o team-dashboard cmd/server/main.go
+Frontend:
+bashcd frontend
+npm run build
+# Output will be in frontend/dist/
+🐛 Troubleshooting
+"Connection refused" on PostgreSQL
+
+Check if PostgreSQL is running: pg_isready
+Verify credentials in .env match your database setup
+If using Docker: docker ps to confirm container is running
+
+"Port 8080 already in use"
+
+Kill the process: lsof -ti:8080 | xargs kill -9
+Or change the port in backend/.env
+
+Frontend can not connect to API
+
+Verify backend is running on http://localhost:8080
+Check frontend/src/api/config.js has correct API URL
+Open browser console for CORS errors
+
+JWT token expired
+
+Tokens expire after 24 hours by default
+Just log out and log back in
+Adjust expiry in backend/internal/auth/jwt.go
+
+📊 Database Schema
+
+**Phase 1 Entities (Build in this order):**
+
+```sql
+employees
+  - id (uuid, primary key)
+  - email (varchar, unique)
+  - full_name (varchar)
+  - role (varchar)
+  - department (varchar)
+  - hire_date (date)
+  - status (varchar: 'active', 'inactive')
+  - created_at (timestamp)
+  - updated_at (timestamp)
+
+projects
+  - id (uuid, primary key)
+  - name (varchar)
+  - description (text)
+  - start_date (date)
+  - end_date (date)
+  - status (varchar: 'planning', 'active', 'completed', 'on_hold')
+  - budget (decimal)
+  - created_at (timestamp)
+  - updated_at (timestamp)
+
+project_assignments (many-to-many join table)
+  - project_id (uuid, foreign key → projects.id)
+  - employee_id (uuid, foreign key → employees.id)
+  - assigned_at (timestamp)
+
+tasks
+  - id (uuid, primary key)
+  - title (varchar)
+  - description (text)
+  - project_id (uuid, foreign key → projects.id)
+  - assigned_to (uuid, foreign key → employees.id)
+  - status (varchar: 'todo', 'in_progress', 'completed')
+  - priority (varchar: 'low', 'medium', 'high')
+  - due_date (date)
+  - created_at (timestamp)
+  - updated_at (timestamp)
+  - completed_at (timestamp)
+
+time_logs
+  - id (uuid, primary key)
+  - employee_id (uuid, foreign key → employees.id)
+  - task_id (uuid, foreign key → tasks.id)
+  - hours (decimal)
+  - log_date (date)
+  - notes (text)
+  - created_at (timestamp)
+```
+
+**Phase 1B - Authentication (Add after core CRUD works):**
+```sql
+users
+  - id (uuid, primary key)
+  - employee_id (uuid, foreign key → employees.id, nullable)
+  - email (varchar, unique)
+  - password_hash (varchar)
+  - created_at (timestamp)
+  - last_login (timestamp)
+```
+🎯 API Endpoints
+
+**Phase 1 - Core CRUD (Build first, no auth):**
+
+Employees
+GET    /api/employees            - List all employees
+POST   /api/employees            - Create new employee
+GET    /api/employees/:id        - Get specific employee
+PUT    /api/employees/:id        - Update employee
+DELETE /api/employees/:id        - Delete employee
+
+Projects
+GET    /api/projects             - List all projects
+POST   /api/projects             - Create new project
+GET    /api/projects/:id         - Get specific project with assigned employees
+PUT    /api/projects/:id         - Update project
+DELETE /api/projects/:id         - Delete project
+POST   /api/projects/:id/assign  - Assign employee to project
+DELETE /api/projects/:id/unassign/:employeeId - Remove employee from project
+
+Tasks
+GET    /api/tasks                - List all tasks (filterable by project, employee, status)
+POST   /api/tasks                - Create new task
+GET    /api/tasks/:id            - Get specific task
+PUT    /api/tasks/:id            - Update task
+DELETE /api/tasks/:id            - Delete task
+GET    /api/projects/:projectId/tasks - Get tasks for a project
+
+Time Logs
+GET    /api/time-logs            - List all time logs (filterable)
+POST   /api/time-logs            - Create new time log
+GET    /api/time-logs/:id        - Get specific time log
+PUT    /api/time-logs/:id        - Update time log
+DELETE /api/time-logs/:id        - Delete time log
+GET    /api/employees/:id/hours  - Get total hours for an employee
+GET    /api/tasks/:id/hours      - Get total hours logged on a task
+
+**Phase 1B - Authentication (Add after CRUD works):**
+POST   /api/auth/register        - Create new user account
+POST   /api/auth/login           - Login and get JWT token
+GET    /api/auth/me              - Get current user info
+
+All Phase 1B+ endpoints require Authorization: Bearer <token> header.
+🚢 Deployment
+This project is designed to deploy on a single VPS or platform like Fly.io.
+Simple deployment stack:
+
+Nginx (reverse proxy, serve React build, SSL termination)
+Go binary (systemd service)
+PostgreSQL (same VPS or managed service like Supabase)
