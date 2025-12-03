@@ -9,6 +9,7 @@ import (
 	"github.com/aalsa/management_dashboard/internal/middleware"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"github.com/joho/godotenv"
 )
 
 func main() {
@@ -87,41 +88,8 @@ func main() {
 }
 
 func loadEnv() {
-	if _, err := os.Stat(".env"); err == nil {
-		file, err := os.Open(".env")
-		if err != nil {
-			log.Println("Warning: .env file exists but could not be opened")
-			return
-		}
-		defer file.Close()
-
-		var lines []string
-		buf := make([]byte, 1024)
-		for {
-			n, err := file.Read(buf)
-			if n > 0 {
-				lines = append(lines, string(buf[:n]))
-			}
-			if err != nil {
-				break
-			}
-		}
-
-		for _, line := range lines {
-			for i := 0; i < len(line); i++ {
-				if line[i] == '=' {
-					key := line[:i]
-					value := line[i+1:]
-					if len(value) > 0 && value[len(value)-1] == '\n' {
-						value = value[:len(value)-1]
-					}
-					if len(value) > 0 && value[len(value)-1] == '\r' {
-						value = value[:len(value)-1]
-					}
-					os.Setenv(key, value)
-					break
-				}
-			}
-		}
+	err := godotenv.Load()
+	if err != nil {
+		log.Println("Warning: .env file not found, using environment variables")
 	}
 }

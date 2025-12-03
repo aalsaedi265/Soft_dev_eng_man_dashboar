@@ -1,0 +1,58 @@
+# Engineering Best Practices
+
+## Core Philosophy
+- **Simplicity First**: Write the simplest solution that works
+- **Readability Over Cleverness**: Code is read far more often than written
+- **Maintainability is King**: Easy to understand and modify beats optimal performance in most cases
+- **Start Simple, Add Complexity Only When Absolutely Needed**: Don't anticipate future requirements
+
+## Code Quality Principles
+
+### Clean Code Standards
+- Use clear, descriptive variable and function names
+- Keep functions small and focused on a single responsibility
+- Avoid deep nesting - prefer early returns and guard clauses
+- Remove commented-out code - use version control instead
+- Delete unused code, imports, and dependencies
+
+### Simplicity Guidelines
+- Minimize the number of lines of code needed to achieve the goal
+- Avoid over-engineering and premature optimization
+- Use built-in language features before adding external dependencies
+- Prefer straightforward solutions over "clever" tricks
+- If you can't explain it simply, simplify it
+
+### DRY Principle
+- Don't Repeat Yourself - extract common patterns
+- But don't abstract too early - wait until you see the pattern 3 times
+- Balance DRY with readability - sometimes duplication is better than wrong abstraction
+
+### YAGNI (You Aren't Gonna Need It)
+- Don't add functionality until it's actually needed
+- No speculative features or "just in case" code
+- Build for today's requirements, not imagined future ones
+
+## Project Structure
+- Keep related files close together
+- Use consistent naming conventions throughout
+- Organize by feature/domain, not by type (when it makes sense)
+
+## Code Reviews & Refactoring
+- Continuously refactor to keep code simple
+- If adding a feature makes code complex, refactor first
+- Leave code cleaner than you found it
+
+## Comments & Documentation
+- Write self-documenting code first
+- Comment the "why", not the "what"
+- Keep comments up to date or remove them
+- Document complex business logic and non-obvious decisions
+
+## Testing Philosophy
+- Write tests that give confidence without over-testing
+- Focus on behavior, not implementation details
+- Keep tests simple and readable
+
+## Remember
+> "Simplicity is the ultimate sophistication." - Leonardo da Vinci
+> "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler

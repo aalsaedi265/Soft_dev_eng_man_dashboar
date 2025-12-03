@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dir /b:*)",
+      "Bash(go mod tidy:*)",
+      "Bash(cmd /c setup-db.bat)",
+      "Bash(chmod:*)",
+      "Bash(psql:*)",
+      "Bash(PGPASSWORD='*' psql:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
